@@ -329,6 +329,25 @@ export interface SearchParamsFullText<T extends AnyOrama, ResultDocument = Typed
   exact?: boolean
 
   /**
+   * Whether to enforce strict space matching when `exact` is true.
+   * When enabled, leading and trailing spaces in the search term must exactly match the document.
+   * For example, searching "Hi " will NOT match "Hi" when preserveSpaces is true.
+   * This parameter is only effective when `exact` is true. If `exact` is false, this parameter is ignored.
+   * 
+   * @example
+   * // Search for documents that contain 'Hi ' (with trailing space) exactly.
+   * const results = await search(db, {
+   *  term: 'Hi ',
+   *  exact: true,
+   *  preserveSpaces: true
+   * });
+   *
+   * // The result will contain all the documents that contain 'Hi ' in their properties.
+   * // Searching for 'Hi' will not match these documents because the trailing space is not exact.
+   */
+  preserveSpaces?: boolean
+
+  /**
    * The maximum [levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
    * between the term and the searchable property.
    */
